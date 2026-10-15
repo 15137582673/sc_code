@@ -92,7 +92,7 @@ def gen_response(chain, input, chat_history):
             yield res["answer"]
 
 def main():
-    st.markdown('### 🦜🔗 动手学大模型应用开发')
+    st.markdown('### SC的大模型')
     # st.session_state可以存储用户与应用交互期间的状态与数据
     # 存储对话历史
     if "messages" not in st.session_state:
