@@ -4,3 +4,4 @@ langchain-community==0.4.1
 langchain-deepseek==1.0.1
 chromadb==1.5.9
 python-dotenv==1.2.1
+langchain-openai==1.1.11
