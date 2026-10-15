@@ -20,7 +20,7 @@ def get_retriever():
         base_url=os.environ["SILICONFLOW_BASE_URL"].strip()
     )
     # 向量数据库持久化路径
-    persist_directory = 'data_base/vector_db/chroma'
+    persist_directory = 'data_base/vector_db/chroma_2'
     # 加载数据库
     vectordb = Chroma(
         persist_directory=persist_directory,
