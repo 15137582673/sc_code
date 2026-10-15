@@ -9,6 +9,8 @@ from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import OllamaEmbeddings
 from langchain_deepseek import ChatDeepSeek
 from dotenv import load_dotenv
+import base64
+
 load_dotenv(override=True)
 
 # 定义检索器
