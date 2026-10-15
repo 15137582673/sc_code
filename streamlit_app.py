@@ -7,7 +7,7 @@ import sys
 sys.path.append("../C3 搭建知识库") # 将父目录放入系统路径中
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import OllamaEmbeddings
-from openai import OpenAI
+from langchain_deepseek import ChatDeepSeek
 from dotenv import load_dotenv
 load_dotenv(override=True)
 
@@ -30,7 +30,7 @@ def combine_docs(docs):
 # 定义问答历史链
 def get_qa_history_chain():
     retriever = get_retriever()
-    llm = OpenAI(
+    llm = ChatDeepSeek(
         model="deepseek:deepseek-flash", 
         temperature=0
     )
