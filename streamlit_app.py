@@ -31,7 +31,7 @@ def combine_docs(docs):
 def get_qa_history_chain():
     retriever = get_retriever()
     llm = ChatDeepSeek(
-        model="deepseek:deepseek-flash", 
+        model="deepseek-flash", 
         temperature=0
     )
 
