@@ -6,35 +6,27 @@ from langchain_core.runnables import RunnableBranch, RunnablePassthrough
 import sys
 sys.path.append("../C3 搭建知识库") # 将父目录放入系统路径中
 from langchain_community.vectorstores import Chroma
-from langchain_community.embeddings import OllamaEmbeddings
+from langchain_openai import OpenAIEmbeddings
 from langchain_deepseek import ChatDeepSeek
 from dotenv import load_dotenv
-import base64
-
 load_dotenv(override=True)
 
 # 定义检索器
 def get_retriever():
-    credentials = (
-        f"{st.secrets['OLLAMA_USER']}:"
-        f"{st.secrets['OLLAMA_PASSWORD']}"
+    # 定义 Embeddings
+    embed_model = OpenAIEmbeddings(
+        model="BAAI/bge-m3",
+        api_key=os.environ["SILICONFLOW_API_KEY"].strip(),
+        base_url=os.environ["SILICONFLOW_BASE_URL"].strip()
     )
-    token = base64.b64encode(
-        credentials.encode("utf-8")
-    ).decode("ascii")
-
-    embed_model = OllamaEmbeddings(
-        model="bge-m3",
-        base_url=st.secrets["OLLAMA_BASE_URL"],
-        headers={"Authorization": f"Basic {token}"},
-    )
-
+    # 向量数据库持久化路径
+    persist_directory = 'data_base/vector_db/chroma'
+    # 加载数据库
     vectordb = Chroma(
-        persist_directory="data_base/vector_db/chroma",
-        embedding_function=embed_model,
+        persist_directory=persist_directory,
+        embedding_function=embed_model
     )
     return vectordb.as_retriever()
-    
 # 定义文档合并器
 def combine_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs["context"])
