@@ -119,3 +119,5 @@ def main():
             output = st.write_stream(answer)
         # 将输出存入st.session_state.messages
         st.session_state.messages.append(("ai", output))
+if __name__ == "__main__":
+    main()
