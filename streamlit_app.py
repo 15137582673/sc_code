@@ -13,16 +13,26 @@ load_dotenv(override=True)
 
 # 定义检索器
 def get_retriever():
-    # 定义 Embeddings
-    embed_model = OllamaEmbeddings(model="bge-m3")
-    # 向量数据库持久化路径
-    persist_directory = 'data_base/vector_db/chroma'
-    # 加载数据库
+    credentials = (
+        f"{st.secrets['OLLAMA_USER']}:"
+        f"{st.secrets['OLLAMA_PASSWORD']}"
+    )
+    token = base64.b64encode(
+        credentials.encode("utf-8")
+    ).decode("ascii")
+
+    embed_model = OllamaEmbeddings(
+        model="bge-m3",
+        base_url=st.secrets["OLLAMA_BASE_URL"],
+        headers={"Authorization": f"Basic {token}"},
+    )
+
     vectordb = Chroma(
-        persist_directory=persist_directory,
-        embedding_function=embed_model
+        persist_directory="data_base/vector_db/chroma",
+        embedding_function=embed_model,
     )
     return vectordb.as_retriever()
+    
 # 定义文档合并器
 def combine_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs["context"])
